@@ -31,4 +31,23 @@ module.exports = {
             return res.status(500).json(err);
         });
     },
+
+    createUser(req, res) {
+        User.create(req.body)
+        .then((user) => res.json(user))
+        .catch((err) => res.status(500).json(err));
+    },
+
+    updateUser(req, res) {
+        const filter = {"_id":req.params.userId};
+        const update = req.body;
+        User.updateOne(filter, update)
+        .then((queryResult) => {
+            if (queryResult.modifiedCount === 1)
+                res.send('user updated!');
+            else throw {message: 'Unable to update user'}
+        })
+        .catch((err) => res.status(500).json(err));
+    },
+
 }
