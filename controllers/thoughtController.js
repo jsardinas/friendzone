@@ -76,4 +76,17 @@ module.exports = {
         .catch((err) => res.status(500).json(err));
     },
 
+    deleteReaction(req, res){
+        const filter = {"_id": req.params.thoughtId};
+        const update = { $pull: { reactions: {reactionId: req.body.reactionId} } };
+        Thought.findOneAndUpdate(filter, update)
+        .then((queryResult) => {
+            console.log(queryResult)
+            if (queryResult)
+                res.send('reaction removed!');
+            else throw {message: 'unable to remove reaction'}
+        })
+        .catch((err) => res.status(500).json(err));
+    },
+
 }
