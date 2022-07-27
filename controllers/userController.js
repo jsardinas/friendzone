@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
     
@@ -50,18 +50,21 @@ module.exports = {
         .catch((err) => res.status(500).json(err));
     },
 
-    deleteUser(req, res) {
-        User.findOneAndRemove({ _id: req.params.userId })
-        .then((user) =>{
-            console.log(user);
-            !user
-                ? res.status(404).json({ message: 'No such user exists' })
-                : res.status(200).send('user deleted!');
-        })
-        .catch((err) => {
+    async deleteUser(req, res) {
+        try{
+            const user = await User.findOneAndRemove({ _id: req.params.userId });
+            if(!user){
+                res.status(404).json({ message: 'No such user exists' });
+            }
+            else{
+                await Thought.deleteMany({'username': user.username});
+                res.json({ message: 'User removed' });
+            }
+        }
+        catch(err) {
             console.log(err);
             res.status(500).json(err);
-        });
+        }
     },
 
     addFriend(req, res){

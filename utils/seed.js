@@ -19,12 +19,10 @@ connection.once('open', async () => {
         let idx = Math.floor(Math.random()*userData.length);
         console.log(idx);
         t['username'] = userData[idx].username;
-        t['userId'] = u.insertedIds[idx];
+        t['reactions'] = [];
     }
 
-    console.log(thoughtData);
     const th = await Thought.collection.insertMany(thoughtData);
-    console.log(th);
 
     console.info('Seeding complete! 🌱');
     process.exit(0);
