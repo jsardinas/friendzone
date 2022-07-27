@@ -63,4 +63,30 @@ module.exports = {
             res.status(500).json(err);
         });
     },
+
+    addFriend(req, res){
+        const filter = {"_id": req.params.userId};
+        const update = { $addToSet: { friends: req.params.friendId } };
+        User.findOneAndUpdate(filter, update)
+        .then((queryResult) => {
+            if (queryResult)
+                res.send('friend added!');
+            else throw {message: 'unable to add friend'}
+        })
+        .catch((err) => res.status(500).json(err));
+    },
+
+    deleteFriend(req, res){
+        const filter = {"_id": req.params.userId};
+        const update = { $pull: { friends: req.params.friendId } };
+        User.findOneAndUpdate(filter, update)
+        .then((queryResult) => {
+            console.log(queryResult)
+            if (queryResult)
+                res.send('friend removed!');
+            else throw {message: 'unable to remove friend'}
+        })
+        .catch((err) => res.status(500).json(err));
+    },
+
 }
