@@ -64,4 +64,16 @@ module.exports = {
         });
     },
 
+    addReaction(req, res){
+        const filter = {"_id": req.params.thoughtId};
+        const update = { $push: { reactions: req.body } };
+        Thought.findOneAndUpdate(filter, update)
+        .then((queryResult) => {
+            if (queryResult)
+                res.send('reaction added!');
+            else throw {message: 'unable to add reaction'}
+        })
+        .catch((err) => res.status(500).json(err));
+    },
+
 }
