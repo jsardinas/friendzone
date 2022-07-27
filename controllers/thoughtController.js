@@ -31,4 +31,23 @@ module.exports = {
             return res.status(500).json(err);
         });
     },
+
+    createThought(req, res) {
+        Thought.create(req.body)
+        .then((user) => res.json(user))
+        .catch((err) => res.status(500).json(err));
+    },
+
+    updateThought(req, res) {
+        const filter = {"_id":req.params.thoughtId};
+        const update = req.body;
+        Thought.updateOne(filter, update)
+        .then((queryResult) => {
+            if (queryResult.modifiedCount === 1)
+                res.send('thought updated!');
+            else throw {message: 'Unable to update thought'}
+        })
+        .catch((err) => res.status(500).json(err));
+    },
+
 }
