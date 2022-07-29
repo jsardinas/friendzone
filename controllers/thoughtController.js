@@ -50,7 +50,6 @@ module.exports = {
     deleteThought(req, res) {
         Thought.findOneAndRemove({ _id: req.params.thoughtId })
         .then((thought) =>{
-            console.log(thought);
             !thought
                 ? res.status(404).json({ message: 'No such thought exists' })
                 : res.status(200).json({message:'thought deleted!'});
@@ -78,7 +77,6 @@ module.exports = {
         const update = { $pull: { reactions: {reactionId: req.body.reactionId} } };
         Thought.findOneAndUpdate(filter, update)
         .then((queryResult) => {
-            console.log(queryResult)
             if (queryResult)
                 res.json({message:'reaction removed!'});
             else throw {message: 'unable to remove reaction'}

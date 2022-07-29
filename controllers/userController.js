@@ -55,8 +55,7 @@ module.exports = {
             }
             else{
                 await Thought.deleteMany({'username': user.username});
-                const r = await User.updateMany({},{$pull:{friends:user._id}});
-                console.log(r);
+                await User.updateMany({},{$pull:{friends:user._id}});
                 res.json({ message: 'User removed' });
             }
         }
@@ -83,7 +82,6 @@ module.exports = {
         const update = { $pull: { friends: req.params.friendId } };
         User.findOneAndUpdate(filter, update)
         .then((queryResult) => {
-            console.log(queryResult)
             if (queryResult)
                 res.send({message:'friend removed!'});
             else throw {message: 'unable to remove friend'}

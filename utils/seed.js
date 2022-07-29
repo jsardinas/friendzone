@@ -17,7 +17,6 @@ connection.once('open', async () => {
 
     for (t of thoughtData){
         let idx = Math.floor(Math.random()*userData.length);
-        console.log(idx);
         t['username'] = userData[idx].username;
         t['reactions'] = [];
     }
