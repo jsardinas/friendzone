@@ -5,10 +5,7 @@ module.exports = {
     getUsers(req, res) {
         User.find()
         .then(async (users) => {
-            const userObj = {
-                users,
-            };
-            return res.json(userObj);
+            return res.json(users);
         })
         .catch((err) => {
             console.log(err);
@@ -44,7 +41,7 @@ module.exports = {
         User.updateOne(filter, update)
         .then((queryResult) => {
             if (queryResult.modifiedCount === 1)
-                res.send('user updated!');
+                res.send({message:'user updated!'});
             else throw {message: 'Unable to update user'}
         })
         .catch((err) => res.status(500).json(err));
@@ -75,7 +72,7 @@ module.exports = {
         User.findOneAndUpdate(filter, update)
         .then((queryResult) => {
             if (queryResult)
-                res.send('friend added!');
+                res.send({message:'friend added!'});
             else throw {message: 'unable to add friend'}
         })
         .catch((err) => res.status(500).json(err));
@@ -88,7 +85,7 @@ module.exports = {
         .then((queryResult) => {
             console.log(queryResult)
             if (queryResult)
-                res.send('friend removed!');
+                res.send({message:'friend removed!'});
             else throw {message: 'unable to remove friend'}
         })
         .catch((err) => res.status(500).json(err));

@@ -5,10 +5,7 @@ module.exports = {
     getThoughts(req, res) {
         Thought.find()
         .then(async (thoughts) => {
-            const thoughtObj = {
-                thoughts,
-            };
-            return res.json(thoughtObj);
+            return res.json(thoughts);
         })
         .catch((err) => {
             console.log(err);
@@ -44,7 +41,7 @@ module.exports = {
         Thought.updateOne(filter, update)
         .then((queryResult) => {
             if (queryResult.modifiedCount === 1)
-                res.send('thought updated!');
+                res.json({message:'thought updated!'});
             else throw {message: 'Unable to update thought'}
         })
         .catch((err) => res.status(500).json(err));
@@ -56,7 +53,7 @@ module.exports = {
             console.log(thought);
             !thought
                 ? res.status(404).json({ message: 'No such thought exists' })
-                : res.status(200).send('thought deleted!');
+                : res.status(200).json({message:'thought deleted!'});
         })
         .catch((err) => {
             console.log(err);
@@ -70,7 +67,7 @@ module.exports = {
         Thought.findOneAndUpdate(filter, update)
         .then((queryResult) => {
             if (queryResult)
-                res.send('reaction added!');
+                res.json({message:'reaction added!'});
             else throw {message: 'unable to add reaction'}
         })
         .catch((err) => res.status(500).json(err));
@@ -83,7 +80,7 @@ module.exports = {
         .then((queryResult) => {
             console.log(queryResult)
             if (queryResult)
-                res.send('reaction removed!');
+                res.json({message:'reaction removed!'});
             else throw {message: 'unable to remove reaction'}
         })
         .catch((err) => res.status(500).json(err));
