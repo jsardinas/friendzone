@@ -58,6 +58,8 @@ module.exports = {
             }
             else{
                 await Thought.deleteMany({'username': user.username});
+                const r = await User.updateMany({},{$pull:{friends:user._id}});
+                console.log(r);
                 res.json({ message: 'User removed' });
             }
         }
