@@ -56,6 +56,7 @@ module.exports = {
             else{
                 await Thought.deleteMany({'username': user.username});
                 await User.updateMany({},{$pull:{friends:user._id}});
+                await Thought.updateMany({},{$pull:{reactions:{username:user.username}}});
                 res.json({ message: 'User removed' });
             }
         }
